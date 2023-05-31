@@ -8,7 +8,7 @@
 
 //Odradene tocke: 1, 2, 3, 4, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19
 //Ukupan broj odradenih tocaka: 14
-
+//Treba odraditi: 5,6,7,11,15,20,21
 
 typedef struct clan { //3, 2
     char* ime;      //1
@@ -16,7 +16,8 @@ typedef struct clan { //3, 2
     int id;
 } CLAN;
 
-void dodajClana(FILE* file) { //4
+//4
+void dodajClana(FILE* file) {
     CLAN clan;
     clan.ime = malloc(MAX_NAME_LENGTH * sizeof(char));
     clan.prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
@@ -28,14 +29,31 @@ void dodajClana(FILE* file) { //4
     scanf("%s", clan.prezime);
 
     int result = 0;
+    int id;
+    int duplicateID = 0; // Koristi se da se zna ako je duplikat naden
+
     do {
+        duplicateID = 0; 
+
         printf("ID: ");
         result = scanf("%d", &clan.id);
         if (result != 1) {
             printf("Neispravan unos za ID. Molimo unesite ponovno.\n");
             while (fgetc(stdin) != '\n');
+            continue;
         }
-    } while (result != 1);
+
+        // gleda dali ima isti ID
+        fseek(file, 0, SEEK_SET);
+        while (fscanf(file, "%*s %*s %d", &id) == 1) {
+            if (id == clan.id) {
+                printf("Clan s unesenim ID-om vec postoji. Odaberi drugi ID.\n");
+                duplicateID = 1;
+                break;
+            }
+        }
+
+    } while (duplicateID);
 
     fprintf(file, "%s %s %d\n", clan.ime, clan.prezime, clan.id);
     printf("Clan je uspjesno dodan.\n");
@@ -172,6 +190,7 @@ int main(void) {
             break;
         default:
             printf("Pogresan unos. Molimo unesite ponovno.\n");
+            while (fgetc(stdin) != '\n'); 
             break;
         }
 
