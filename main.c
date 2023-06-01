@@ -6,9 +6,9 @@
 
 #define MAX_NAME_LENGTH 50 //12
 
-//Odradene tocke: 1, 2, 3, 4, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19
+//Odradene tocke: 1, 2, 3, 4, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19, 20
 //Ukupan broj odradenih tocaka: 14
-//Treba odraditi: 5,6,7,11,15,20,21
+//Treba odraditi: 5,6,7,11,15,21
 
 typedef struct clan { //3, 2
     char* ime;      //1
@@ -62,6 +62,9 @@ void dodajClana(FILE* file) {
     free(clan.prezime);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Brisanje Clana
+
 void izbrisiClana(FILE* file, int id) {
     FILE* tf = fopen("temp.txt", "w");
     if (tf == NULL) {
@@ -114,6 +117,9 @@ void izbrisiClana(FILE* file, int id) {
     free(clan.prezime);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Ispis Clanova
+
 void ispisClanova(FILE* file) { //9, 10
     CLAN clan;
     clan.ime = malloc(MAX_NAME_LENGTH * sizeof(char)); //13, 14
@@ -135,6 +141,151 @@ void ispisClanova(FILE* file) { //9, 10
     free(clan.prezime);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Sortiranje po imenu
+
+//strcmp
+int usporedbaClanova(const void* a, const void* b) {
+	const CLAN* clanA = (const CLAN*)a;
+	const CLAN* clanB = (const CLAN*)b;
+	return strcmp(clanA->ime, clanB->ime);
+}
+
+void sortClanova(CLAN* clanovi, int numClanova) {
+	qsort(clanovi, numClanova, sizeof(CLAN), usporedbaClanova);//20
+}
+
+void ispisSortiranihClanovaPoImenu(FILE* file) {
+	CLAN* clanovi;
+	int numClanova = 0;
+
+	// Broji koliko ima clanova
+	while (fscanf(file, "%*s %*s %*d") == 0) {
+		numClanova++;
+	}
+
+	// Alocira memoriju
+	clanovi = malloc(numClanova * sizeof(CLAN));
+	if (clanovi == NULL) {
+		perror("Greska pri alokaciji memorije");
+		return;
+	}
+
+	fseek(file, 0, SEEK_SET);
+
+	// Cita clanove iz filea u polje
+	int i;
+	for (i = 0; i < numClanova; i++) {
+		clanovi[i].ime = malloc(MAX_NAME_LENGTH * sizeof(char));
+		clanovi[i].prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+		fscanf(file, "%s %s %d", clanovi[i].ime, clanovi[i].prezime, &clanovi[i].id);
+	}
+
+	// Poziva funkciju za sortiranje
+	sortClanova(clanovi, numClanova);
+
+	// Ispisuje Sortirano
+	printf("Sortirani clanovi teretane po imenu:\n");
+	for (i = 0; i < numClanova; i++) {
+		printf("Ime: %s %s\n", clanovi[i].ime, clanovi[i].prezime);
+		printf("ID: %d\n\n", clanovi[i].id);
+	}
+
+	// freea memoriju
+	for (i = 0; i < numClanova; i++) {
+		free(clanovi[i].ime);
+		free(clanovi[i].prezime);
+	}
+	free(clanovi);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Sortiranje po prezimenu
+
+int usporedbaClanovaPoPrezimenu(const void* a, const void* b) {
+	const CLAN* clanA = (const CLAN*)a;
+	const CLAN* clanB = (const CLAN*)b;
+	return strcmp(clanA->prezime, clanB->prezime);
+}
+
+void sortClanovaPoPrezimenu(CLAN* clanovi, int numClanova) {
+	qsort(clanovi, numClanova, sizeof(CLAN), usporedbaClanovaPoPrezimenu);//20
+}
+
+void ispisSortiranihClanovaPoPrezimenu(FILE* file) {
+	CLAN* clanovi;
+	int numClanova = 0;
+
+	// Broji koliko ima clanova
+	while (fscanf(file, "%*s %*s %*d") == 0) {
+		numClanova++;
+	}
+
+	// Alocira memoriju
+	clanovi = malloc(numClanova * sizeof(CLAN));
+	if (clanovi == NULL) {
+		perror("Greska pri alokaciji memorije");
+		return;
+	}
+
+	fseek(file, 0, SEEK_SET);
+
+	// Cita clanove iz filea u polje
+	int i;
+	for (i = 0; i < numClanova; i++) {
+		clanovi[i].ime = malloc(MAX_NAME_LENGTH * sizeof(char));
+		clanovi[i].prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+		fscanf(file, "%s %s %d", clanovi[i].ime, clanovi[i].prezime, &clanovi[i].id);
+	}
+
+	// Poziva funkciju za sortiranje
+	sortClanovaPoPrezimenu(clanovi, numClanova);
+
+	// Ispisuje Sortirano
+	printf("Sortirani clanovi teretane po prezimenu:\n");
+	for (i = 0; i < numClanova; i++) {
+		printf("Ime: %s %s\n", clanovi[i].ime, clanovi[i].prezime);
+		printf("ID: %d\n\n", clanovi[i].id);
+	}
+
+	// freea memoriju
+	for (i = 0; i < numClanova; i++) {
+		free(clanovi[i].ime);
+		free(clanovi[i].prezime);
+	}
+	free(clanovi);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//pretrazivanje
+void pretrazivanje(FILE* file, int id) {
+	
+	CLAN clan;
+	clan.ime = malloc(MAX_NAME_LENGTH * sizeof(char));
+	clan.prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+
+	
+
+	int pronaden = 0;
+	while (fscanf(file, "%s %s %d", clan.ime, clan.prezime, &clan.id) != EOF) {
+		if (clan.id == id) {
+			pronaden = 1;
+			continue;
+		}
+	}
+	if (pronaden == 1)
+	{
+		printf("Clan je pronaden");
+	}
+	else {
+		printf("Clan nije pronaden");
+	}
+
+	fclose(file);
+	free(clan.ime);
+	free(clan.prezime);
+}
+
 int main(void) {
     FILE* file = fopen("gym.txt", "a+");
     if (file == NULL) {
@@ -149,7 +300,10 @@ int main(void) {
         printf("1. Dodaj clanove\n");
         printf("2. Izbrisi clanove\n");
         printf("3. Ispisi listu clanova\n");
-        printf("4. Izlaz\n");
+		printf("4. Sortiraj po imenu\n");
+		printf("5. Sortiraj po prezimenu\n");
+		printf("6. Pretrazivanje\n");
+        printf("7. Izlaz\n");
         printf("Tvoj odabir: ");
 
         int result = 0;
@@ -185,18 +339,40 @@ int main(void) {
             fseek(file, 0, SEEK_SET); //17
             ispisClanova(file);
             break;
-        case 4:
-            printf("Izlazak iz programa.\n");
-            break;
+        
+		case 4:
+			//Sort
+			fseek(file, 0, SEEK_SET);
+			ispisSortiranihClanovaPoImenu(file);
+			break;
+		case 5:
+			fseek(file, 0, SEEK_SET);
+			ispisSortiranihClanovaPoPrezimenu(file);
+			break;
+		case 6:
+			printf("Unesite ID clana kojeg pretrazujete\n");
+			result = 0;
+			do {
+				result = scanf("%d", &id);
+				if (result != 1) {
+					printf("Neispravan unos za ID. Molimo unesite ponovno.\n");
+					while (fgetc(stdin) != '\n');
+				}
+			} while (result != 1);
+			fseek(file, 0, SEEK_SET);
+			pretrazivanje(file, id);
+			break;
+		case 7:
+			printf("Izlazak iz programa.\n");
+			break;
         default:
             printf("Pogresan unos. Molimo unesite ponovno.\n");
             while (fgetc(stdin) != '\n'); 
             break;
         }
-
         printf("\n");
 
-    } while (odabir != 4);
+    } while (odabir != 7);
 
     fclose(file);
 
