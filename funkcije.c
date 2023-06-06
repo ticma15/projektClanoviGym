@@ -272,6 +272,10 @@ void pretrazivanje(FILE* file, int id) { //21
 	}
 
 	fclose(file);
+	file = fopen("gym.txt", "a+");
+	if (file == NULL) {
+		perror("Greska pri otvaranju gym.txt");
+	}
 	free(clan.ime);
 	free(clan.prezime);
 }
