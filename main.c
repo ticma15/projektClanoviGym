@@ -34,10 +34,11 @@ int main(void) {
 		printf("4. Sortiraj po imenu\n");
 		printf("5. Sortiraj po prezimenu\n");
 		printf("6. Pretrazivanje\n");
-        printf("7. Izlaz\n");
+		printf("7. Ispis brojeva\n");
+        printf("8. Izlaz\n");
         printf("Tvoj odabir: ");
 
-        int result = 0;
+        static int result = 0;
         //do {
         //    result = scanf("%d", &odabir);
         //    if (result != 1) {
@@ -71,6 +72,8 @@ int main(void) {
             result = 0;
             do {
                 result = scanf("%d", &id);
+				int c;
+				while ((c = getchar()) != '\n' && c != EOF);
                 if (result != 1) {
                     printf("Neispravan unos za ID. Molimo unesite ponovno.\n");
                     while (fgetc(stdin) != '\n');
@@ -98,6 +101,8 @@ int main(void) {
 			result = 0;
 			do {
 				result = scanf("%d", &id);
+				int c;
+				while ((c = getchar()) != '\n' && c != EOF);
 				if (result != 1) {
 					printf("Neispravan unos za ID. Molimo unesite ponovno.\n");
 					while (fgetc(stdin) != '\n');
@@ -106,7 +111,11 @@ int main(void) {
 			fseek(file, 0, SEEK_SET);
 			pretrazivanje(file, id);
 			break;
-        case '7':
+		case '7':
+			printf("Ispis brojeva\n");
+			ispisBrojeva();
+			break;
+        case '8':
 			printf("Izlazak iz programa.\n");
 			break;
         default:
@@ -116,8 +125,7 @@ int main(void) {
         }
         printf("\n");
 
-    } while (ch[0] != '7');
-
+    } while (ch[0] != '8');
     fclose(file);
 
     return 0;

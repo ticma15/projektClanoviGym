@@ -8,15 +8,14 @@
 
 //4
 void dodajClana(FILE* file) {
-	CLAN clan;
-	clan.ime = malloc(MAX_NAME_LENGTH * sizeof(char));
-	clan.prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+	CLAN const *clan;
+	clan = malloc(MAX_NAME_LENGTH * sizeof(CLAN));
 
 	printf("Unesi podatke clana:\n");
 	printf("Ime: ");
-	scanf("%s", clan.ime);
+	scanf("%s", clan->ime);
 	printf("Prezime: ");
-	scanf("%s", clan.prezime);
+	scanf("%s", clan->prezime);
 
 	int result = 0;
 	int id;
@@ -26,7 +25,7 @@ void dodajClana(FILE* file) {
 		duplicateID = 0;
 
 		printf("ID: ");
-		result = scanf("%d", &clan.id);
+		result = scanf("%d", &clan->id);
 		if (result != 1) {
 			printf("Neispravan unos za ID. Molimo unesite ponovno.\n");
 			while (fgetc(stdin) != '\n');
@@ -36,7 +35,7 @@ void dodajClana(FILE* file) {
 		// gleda dali ima isti ID
 		fseek(file, 0, SEEK_SET);
 		while (fscanf(file, "%*s %*s %d", &id) == 1) {
-			if (id == clan.id) {
+			if (id == clan->id) {
 				printf("Clan s unesenim ID-om vec postoji. Odaberi drugi ID.\n");
 				duplicateID = 1;
 				break;
@@ -45,36 +44,38 @@ void dodajClana(FILE* file) {
 
 	} while (duplicateID);
 
-	fprintf(file, "%s %s %d\n", clan.ime, clan.prezime, clan.id);
+	fprintf(file, "%s %s %d\n", clan->ime, clan->prezime, clan->id);
 	printf("Clan je uspjesno dodan.\n");
-
-	free(clan.ime);
-	free(clan.prezime);
+	fclose(file);
+	file = fopen("gym.txt", "a+");
+	if (file == NULL) {
+		perror("Greska pri otvaranju gym.txt");
+	}
+	free(clan);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Brisanje Clana
 
-void izbrisiClana(FILE* file, int id) {
+void izbrisiClana(FILE* file,const int id) {
 	FILE* tf = fopen("temp.txt", "w");
 	if (tf == NULL) {
 		perror("Greska pri otvaranju temp.txt");
 		return;
 	}
 
-	CLAN clan;
-	clan.ime = malloc(MAX_NAME_LENGTH * sizeof(char));
-	clan.prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+	CLAN *clan;
+	clan = malloc(MAX_NAME_LENGTH * sizeof(CLAN));
 
 	int pronaden = 0;
 
-	while (fscanf(file, "%s %s %d", clan.ime, clan.prezime, &clan.id) != EOF) {
-		if (clan.id == id) {
+	while (fscanf(file, "%s %s %d", clan->ime, clan->prezime, &clan->id) != EOF) {
+		if (clan->id == id) {
 			pronaden = 1;
 			continue;
 		}
 
-		fprintf(tf, "%s %s %d\n", clan.ime, clan.prezime, clan.id);
+		fprintf(tf, "%s %s %d\n", clan->ime, clan->prezime, clan->id);
 	}
 
 	fclose(file);
@@ -103,22 +104,20 @@ void izbrisiClana(FILE* file, int id) {
 		perror("Greska pri otvaranju gym.txt");
 	}
 
-	free(clan.ime);
-	free(clan.prezime);
+	free(clan);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Ispis Clanova
 
-void ispisClanova(FILE* file) { //9, 10
-	CLAN clan;
-	clan.ime = malloc(MAX_NAME_LENGTH * sizeof(char)); //13, 14
-	clan.prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+void ispisClanova(const FILE* file) { //9, 10
+	CLAN const *clan;
+	clan = malloc(MAX_NAME_LENGTH * sizeof(CLAN));
 
 	printf("Clanovi teretane:\n");
-	while (fscanf(file, "%s %s %d", clan.ime, clan.prezime, &clan.id) != EOF) {
-		printf("Ime: %s %s\n", clan.ime, clan.prezime);
-		printf("ID: %d\n\n", clan.id);
+	while (fscanf(file, "%s %s %d", clan->ime, clan->prezime, &clan->id) != EOF) {
+		printf("Ime: %s %s\n", clan->ime, clan->prezime);
+		printf("ID: %d\n\n", clan->id);
 	}
 
 	fclose(file);
@@ -127,14 +126,13 @@ void ispisClanova(FILE* file) { //9, 10
 		perror("Greska pri otvaranju gym.txt");
 	}
 
-	free(clan.ime);
-	free(clan.prezime);
+	free(clan);
 }
-
+//11 const, 12
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Sortiranje po imenu
 
-//strcmp
+
 int usporedbaClanova(const void* a, const void* b) {
 	const CLAN* clanA = (const CLAN*)a;
 	const CLAN* clanB = (const CLAN*)b;
@@ -166,8 +164,7 @@ void ispisSortiranihClanovaPoImenu(FILE* file) {
 	// Cita clanove iz filea u polje
 	int i;
 	for (i = 0; i < numClanova; i++) {
-		clanovi[i].ime = malloc(MAX_NAME_LENGTH * sizeof(char));
-		clanovi[i].prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+		//clanovi[i] = malloc(numClanova * sizeof(CLAN));
 		fscanf(file, "%s %s %d", clanovi[i].ime, clanovi[i].prezime, &clanovi[i].id);
 	}
 
@@ -223,8 +220,8 @@ void ispisSortiranihClanovaPoPrezimenu(FILE* file) {
 	// Cita clanove iz filea u polje
 	int i;
 	for (i = 0; i < numClanova; i++) {
-		clanovi[i].ime = malloc(MAX_NAME_LENGTH * sizeof(char));
-		clanovi[i].prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+		//clanovi[i].ime = malloc(MAX_NAME_LENGTH * sizeof(char));
+		//clanovi[i].prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
 		fscanf(file, "%s %s %d", clanovi[i].ime, clanovi[i].prezime, &clanovi[i].id);
 	}
 
@@ -248,17 +245,16 @@ void ispisSortiranihClanovaPoPrezimenu(FILE* file) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //pretrazivanje
-void pretrazivanje(FILE* file, int id) { //21
-
-	CLAN clan;
-	clan.ime = malloc(MAX_NAME_LENGTH * sizeof(char));
-	clan.prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
+void pretrazivanje(const FILE* file, const int id) { //21
+	 
+	CLAN const *clan;
+	clan = malloc(MAX_NAME_LENGTH * sizeof(CLAN));
 
 
 
 	int pronaden = 0;
-	while (fscanf(file, "%s %s %d", clan.ime, clan.prezime, &clan.id) != EOF) {
-		if (clan.id == id) {
+	while (fscanf(file, "%s %s %d", clan->ime, clan->prezime, &clan->id) != EOF) {
+		if (clan->id == id) {
 			pronaden = 1;
 			continue;
 		}
@@ -276,6 +272,16 @@ void pretrazivanje(FILE* file, int id) { //21
 	if (file == NULL) {
 		perror("Greska pri otvaranju gym.txt");
 	}
-	free(clan.ime);
-	free(clan.prezime);
+	free(clan);
+}
+//Fiksno polje od charova
+//funckija za pretrazivanje
+//Ispisat prezime clana s najvecim IDom
+void ispisBrojeva()
+{
+	int polje[9] = {1,2,3,4,5,6,7,8,10};
+	for (int i = 0; i < 9; i++)
+	{
+		printf("%d\t", polje[i]);
+	}
 }
