@@ -34,18 +34,11 @@ int main(void) {
 		printf("4. Sortiraj po imenu\n");
 		printf("5. Sortiraj po prezimenu\n");
 		printf("6. Pretrazivanje\n");
-		printf("7. Ispis brojeva\n");
+		printf("7. Najveci ID\n");
         printf("8. Izlaz\n");
         printf("Tvoj odabir: ");
 
         static int result = 0;
-        //do {
-        //    result = scanf("%d", &odabir);
-        //    if (result != 1) {
-        //        printf("Neispravan unos. Molimo unesite ponovno.\n");
-        //        while (fgetc(stdin) != '\n');
-        //    }
-        //} while (result != 1);
         static int duzina; //5
         do
         {
@@ -88,7 +81,6 @@ int main(void) {
             break;
         
 		case '4':
-			//Sort
 			fseek(file, 0, SEEK_SET);
 			ispisSortiranihClanovaPoImenu(file);
 			break;
@@ -112,8 +104,7 @@ int main(void) {
 			pretrazivanje(file, id);
 			break;
 		case '7':
-			printf("Ispis brojeva\n");
-			ispisBrojeva();
+			najveciID(file);
 			break;
         case '8':
 			printf("Izlazak iz programa.\n");

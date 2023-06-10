@@ -20,5 +20,5 @@ int usporedbaClanovaPoPrezimenu(const void* a, const void* b);
 void sortClanovaPoPrezimenu(CLAN* clanovi, int numClanova);
 void ispisSortiranihClanovaPoPrezimenu(FILE* file);
 void pretrazivanje(const FILE* file, const int id);
-void ispisBrojeva();
+void najveciID(const FILE* file);
 #endif // !HEADER_H

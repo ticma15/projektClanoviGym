@@ -220,8 +220,6 @@ void ispisSortiranihClanovaPoPrezimenu(FILE* file) {
 	// Cita clanove iz filea u polje
 	int i;
 	for (i = 0; i < numClanova; i++) {
-		//clanovi[i].ime = malloc(MAX_NAME_LENGTH * sizeof(char));
-		//clanovi[i].prezime = malloc(MAX_NAME_LENGTH * sizeof(char));
 		fscanf(file, "%s %s %d", clanovi[i].ime, clanovi[i].prezime, &clanovi[i].id);
 	}
 
@@ -274,14 +272,44 @@ void pretrazivanje(const FILE* file, const int id) { //21
 	}
 	free(clan);
 }
-//Fiksno polje od charova
-//funckija za pretrazivanje
-//Ispisat prezime clana s najvecim IDom
-void ispisBrojeva()
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Ispis clana s najvecim IDem
+
+void najveciID(const FILE* file)
 {
-	int polje[9] = {1,2,3,4,5,6,7,8,10};
-	for (int i = 0; i < 9; i++)
-	{
-		printf("%d\t", polje[i]);
+	CLAN* clanovi[50];    //12
+	int numClanova = 0;            
+	int maxID = -1;                
+	int maxIndex = -1;             
+
+
+	for (int i = 0; i < 50; i++) {
+		clanovi[i] = malloc(sizeof(CLAN));
+	}
+
+
+	while (numClanova < 50 && fscanf(file, "%s %s %d", clanovi[numClanova]->ime, clanovi[numClanova]->prezime, &clanovi[numClanova]->id) == 3) {
+		if (clanovi[numClanova]->id > maxID) {
+			maxID = clanovi[numClanova]->id;
+			maxIndex = numClanova;
+		}
+		numClanova++;
+	}
+
+	// ispisuje clana s najvecim IDem
+	if (maxIndex != -1) {
+		printf("Clan koji ima najveci ID:\n");
+		printf("Ime: %s\n", clanovi[maxIndex]->ime);
+		printf("Prezime: %s\n", clanovi[maxIndex]->prezime);
+		printf("ID: %d\n", clanovi[maxIndex]->id);
+	}
+	else {
+		printf("Nema pronadenih clanova.\n");
+	}
+
+	// freea memoriju
+	for (int i = 0; i < numClanova; i++) {
+		free(clanovi[i]);
 	}
 }

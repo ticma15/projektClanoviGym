@@ -1,2 +1,4 @@
 ﻿  main.c
-  Clanovi Teretane.vcxproj -> C:\Users\student\Desktop\projektClanoviGym-main\x64\Debug\Clanovi Teretane.exe
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\main.c(53,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\main.c(26,9): warning C4101: 'odabir': unreferenced local variable
+  Clanovi Teretane.vcxproj -> C:\Users\Filip Matic\Desktop\projektClanoviGym-main\x64\Debug\Clanovi Teretane.exe
