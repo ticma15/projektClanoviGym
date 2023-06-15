@@ -179,10 +179,10 @@ void ispisSortiranihClanovaPoImenu(FILE* file) {
 	}
 
 	// freea memoriju
-	for (i = 0; i < numClanova; i++) {
+	/*for (i = 0; i < numClanova; i++) {
 		free(clanovi[i].ime);
 		free(clanovi[i].prezime);
-	}
+	}*/
 	free(clanovi);
 }
 
@@ -234,10 +234,10 @@ void ispisSortiranihClanovaPoPrezimenu(FILE* file) {
 	}
 
 	// freea memoriju
-	for (i = 0; i < numClanova; i++) {
+	/*for (i = 0; i < numClanova; i++) {
 		free(clanovi[i].ime);
 		free(clanovi[i].prezime);
-	}
+	}*/
 	free(clanovi);
 }
 

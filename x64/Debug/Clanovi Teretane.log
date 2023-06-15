@@ -1,4 +1,20 @@
-﻿  main.c
-C:\Users\Filip Matic\Desktop\projektClanoviGym-main\main.c(53,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Filip Matic\Desktop\projektClanoviGym-main\main.c(26,9): warning C4101: 'odabir': unreferenced local variable
+﻿  funkcije.c
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(16,8): warning C4477: 'scanf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'const char *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(18,8): warning C4477: 'scanf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'const char *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(28,18): warning C4477: 'scanf' : format string '%d' requires an argument of type 'int *', but variadic argument 1 has type 'const int *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(54,11): warning C4090: 'function': different 'const' qualifiers
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(118,20): warning C4090: 'function': different 'const' qualifiers
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(118,22): warning C4477: 'fscanf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'const char *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(118,22): warning C4477: 'fscanf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'const char *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(118,22): warning C4477: 'fscanf' : format string '%d' requires an argument of type 'int *', but variadic argument 3 has type 'const int *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(123,13): warning C4090: 'function': different 'const' qualifiers
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(129,11): warning C4090: 'function': different 'const' qualifiers
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(254,20): warning C4090: 'function': different 'const' qualifiers
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(254,22): warning C4477: 'fscanf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'const char *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(254,22): warning C4477: 'fscanf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'const char *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(254,22): warning C4477: 'fscanf' : format string '%d' requires an argument of type 'int *', but variadic argument 3 has type 'const int *'
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(268,13): warning C4090: 'function': different 'const' qualifiers
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(273,11): warning C4090: 'function': different 'const' qualifiers
+C:\Users\Filip Matic\Desktop\projektClanoviGym-main\funkcije.c(292,39): warning C4090: 'function': different 'const' qualifiers
+  LINK : C:\Users\Filip Matic\Desktop\projektClanoviGym-main\x64\Debug\Clanovi Teretane.exe not found or not built by the last incremental link; performing full link
   Clanovi Teretane.vcxproj -> C:\Users\Filip Matic\Desktop\projektClanoviGym-main\x64\Debug\Clanovi Teretane.exe
